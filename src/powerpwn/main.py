@@ -1,6 +1,6 @@
 import logging
 
-from art import tprint
+from art import tprint  # type: ignore
 
 from powerpwn.cli.arguments import parse_arguments
 from powerpwn.cli.const import LOGGER_NAME
@@ -22,12 +22,12 @@ logger = logging.getLogger(LOGGER_NAME)
 def main():
     print("\n\n------------------------------------------------------------")
     tprint("powerpwn")
-    print("Hacker Summer Camp 2024 edition\n\n")
+    print("Hacker Summer Camp 2025 edition\n\n")
     print("------------------------------------------------------------\n\n")
 
     args = parse_arguments()
 
-    logging.basicConfig(level=args.log_level, format="%(asctime)s | %(name)s | %(levelname)s | %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+    logging.basicConfig(level=args.log_level, format="%(asctime)s | %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
     logger.level = args.log_level
     command = args.command
 

@@ -17,6 +17,7 @@ from powerpwn.copilot.spearphishing.automated_spear_phisher import AutomatedSpea
 from powerpwn.copilot.whoami.whoami import WhoAmI
 from powerpwn.copilot_studio.modules.deep_scan import DeepScan
 from powerpwn.copilot_studio.modules.enum import Enum
+from powerpwn.copilot_studio.modules.tools_recon import ToolsRecon
 from powerpwn.nocodemalware.enums.code_exec_type_enum import CodeExecTypeEnum
 from powerpwn.nocodemalware.enums.command_to_run_enum import CommandToRunEnum
 from powerpwn.nocodemalware.malware_runner import MalwareRunner
@@ -220,6 +221,9 @@ def run_copilot_studio_command(args):
 
     if args.copilot_studio_subcommand == "deep-scan":
         DeepScan(args)
+        return
+    elif args.copilot_studio_subcommand == "tools-recon":
+        ToolsRecon(args)
         return
     elif args.copilot_studio_subcommand == "enum":
         Enum(args)
