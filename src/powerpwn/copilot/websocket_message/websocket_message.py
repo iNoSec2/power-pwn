@@ -1,5 +1,5 @@
 import json
-from typing import Final, Optional
+from typing import Any, Dict, Final, List, Optional
 
 from typing_extensions import override
 
@@ -50,12 +50,12 @@ class WebsocketMessage(IWebsocketMessage):
         return self.__json_message["item"]["result"]["value"] in ("Success", "ApologyResponseReturned")
 
     @classmethod
-    def to_websocket_message(cls, message: dict) -> str:
+    def to_websocket_message(cls, message: Dict[str, Any]) -> str:
         return json.dumps(message) + cls.__SPECIAL_CHAR
 
     def __parse(self) -> WebsocketParsedMessage:
         copilot_message: str = ""
-        suggestions: list[str] = []
+        suggestions: List[str] = []
         is_disengaged = False
 
         is_success = True
@@ -92,8 +92,8 @@ class WebsocketMessage(IWebsocketMessage):
             copilot_message=copilot_message, is_success=is_success, is_disengaged=is_disengaged, suggestions=suggestions, type=self.type()
         )
 
-    def __extract_suggestions(self, message: dict) -> list[str]:
-        suggestions: list[str] = []
+    def __extract_suggestions(self, message: Dict[str, Any]) -> List[str]:
+        suggestions: List[str] = []
         for suggestion in message.get("suggestedResponses", []):
             suggestions.append(suggestion["text"])
         return suggestions
@@ -101,10 +101,10 @@ class WebsocketMessage(IWebsocketMessage):
     def __parse_message_for_copilot_final(self) -> str:
         messages = self.__json_message["item"]["messages"]
         copilot_message = ""
-        suggestions: list[str] = []
+        suggestions: List[str] = []
         is_disengaged = False
         for message in messages:
-            message_type = message["messageType"]
+            message_type = message.get("messageType", "Chat")
             if message["author"] == "bot":
                 if message_type == "Chat":
                     copilot_message = message["text"]
