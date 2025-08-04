@@ -26,7 +26,6 @@ function delay(time) {
   const timeout = 250000;
   page.setDefaultTimeout(timeout);
 
-  // await page.setViewport({ width: 1920, height: 1080 });
   await page.setViewport({ width: 1920, height: 500 });
 
   try {
@@ -166,8 +165,6 @@ function delay(time) {
 
     // Write the workbook to the file
     XLSX.writeFile(workbook, outputPath);
-
-    // await delay(25000); // Wait for any dynamic content to load
 
     console.log(`Processed chatbot at: ${targetPageUrl}`);
   } catch (e) {

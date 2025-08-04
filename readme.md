@@ -64,6 +64,8 @@ An review of the tool's basic modules is available here:
   pip install .
 ```
 
+4. If local changes aren't reflected when testing PPWN, try reinstalling the package in editable mode with `pip install -e .` to ensure updates take effect.
+
 **Notes**:
 
 1. To handle the GUI properly, please use Python 3.8 for the above virtual environment, if it is not already the default.
