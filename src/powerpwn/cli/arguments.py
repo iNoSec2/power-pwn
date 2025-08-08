@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import argparse
 import logging
+from typing import TYPE_CHECKING
 
 from powerpwn.copilot.enums.copilot_scenario_enum import CopilotScenarioEnum
 from powerpwn.copilot.enums.verbose_enum import VerboseEnum
@@ -7,14 +10,17 @@ from powerpwn.nocodemalware.enums.code_exec_type_enum import CodeExecTypeEnum
 from powerpwn.powerdoor.enums.action_type import BackdoorActionType
 from powerpwn.powerdump.utils.const import CACHE_PATH
 
+if TYPE_CHECKING:
+    from argparse import _SubParsersAction
 
-def module_gui(sub_parser: argparse.ArgumentParser):
+
+def module_gui(sub_parser: "_SubParsersAction[argparse.ArgumentParser]") -> None:
     gui_parser = sub_parser.add_parser("gui", description="Show collected resources and data.", help="Show collected resources and data via GUI.")
     gui_parser.add_argument("--cache-path", default=CACHE_PATH, type=str, help="Path to cached resources.")
     gui_parser.add_argument("-t", "--tenant", required=False, type=str, help="Tenant id to launch gui.")
 
 
-def module_dump(sub_parser: argparse.ArgumentParser):
+def module_dump(sub_parser: "_SubParsersAction[argparse.ArgumentParser]") -> None:
     dump_parser = sub_parser.add_parser(
         "dump", description="Dump content for all available connection from recon", help="Dump content for all available connection from recon"
     )
@@ -25,7 +31,7 @@ def module_dump(sub_parser: argparse.ArgumentParser):
     dump_parser.add_argument("-r", "--recon", action="store_true", help="Run recon before dump. Should be used if recon command was not run before.")
 
 
-def module_recon(sub_parser: argparse.ArgumentParser):
+def module_recon(sub_parser: "_SubParsersAction[argparse.ArgumentParser]") -> None:
     dump_parser = sub_parser.add_parser("recon", description="Recon for available data connections", help="Recon for available data connections.")
     dump_parser.add_argument("-c", "--clear-cache", action="store_true", help="Clear local disk cache")
     dump_parser.add_argument("--cache-path", default=CACHE_PATH, help="Path to store collected resources and data.")
@@ -33,7 +39,7 @@ def module_recon(sub_parser: argparse.ArgumentParser):
     dump_parser.add_argument("-g", "--gui", action="store_true", help="Run local server for gui.")
 
 
-def module_nocodemalware(command_subparsers: argparse.ArgumentParser):
+def module_nocodemalware(command_subparsers: "_SubParsersAction[argparse.ArgumentParser]") -> None:
     nocodemalware_parser = command_subparsers.add_parser(
         "nocodemalware",
         description="Repurpose trusted execs, service accounts and cloud services to power a malware operation",
@@ -42,12 +48,12 @@ def module_nocodemalware(command_subparsers: argparse.ArgumentParser):
     nocodemalware_parser.add_argument(
         "-w", "--webhook-url", required=True, type=str, help="Webhook url to the flow factory installed in powerplatform"
     )
-    nocodemalware_parser = nocodemalware_parser.add_subparsers(help="nocodemalware_subcommand", dest="nocodemalware_subcommand")
+    nocodemalware_subparsers = nocodemalware_parser.add_subparsers(help="nocodemalware_subcommand", dest="nocodemalware_subcommand")
 
-    module_nocodemalware_subcommand_exec(nocodemalware_parser)
+    module_nocodemalware_subcommand_exec(nocodemalware_subparsers)
 
 
-def module_nocodemalware_subcommand_exec(command_subparsers: argparse.ArgumentParser):
+def module_nocodemalware_subcommand_exec(command_subparsers: "_SubParsersAction[argparse.ArgumentParser]") -> None:
     steal_fqdn_parser = command_subparsers.add_parser("steal-cookie", description="Steal cookie of fqdn")
     steal_fqdn_parser.add_argument("--fqdn", required=True, type=str, help="Fully qualified domain name to fetch the cookies of")
 
@@ -74,7 +80,7 @@ def module_nocodemalware_subcommand_exec(command_subparsers: argparse.ArgumentPa
     command_subparsers.add_parser("cleanup", description="Cleanup")
 
 
-def module_backdoor(command_subparsers: argparse.ArgumentParser):
+def module_backdoor(command_subparsers: "_SubParsersAction[argparse.ArgumentParser]") -> None:
     backdoor_parser = command_subparsers.add_parser(
         "backdoor", description="Install a backdoor on the target tenant.", help="Install a backdoor on the target tenant"
     )
@@ -112,7 +118,7 @@ def module_backdoor(command_subparsers: argparse.ArgumentParser):
     installer.add_argument("-t", "--tenant", required=False, type=str, help="Tenant id to connect.")
 
 
-def module_phishing(command_subparsers: argparse.ArgumentParser):
+def module_phishing(command_subparsers: "_SubParsersAction[argparse.ArgumentParser]") -> None:
     phishing = command_subparsers.add_parser("phishing", description="Deploy a trustworthy phishing app", help="Deploy a trustworthy phishing app.")
     phishing_subparsers = phishing.add_subparsers(help="phishing_subcommand", dest="phishing_subcommand")
 
@@ -130,7 +136,7 @@ def module_phishing(command_subparsers: argparse.ArgumentParser):
     app_share.add_argument("-t", "--tenant", required=True, type=str, help="Tenant id to connect.")
 
 
-def module_copilot(command_subparsers: argparse.ArgumentParser):
+def module_copilot(command_subparsers: "_SubParsersAction[argparse.ArgumentParser]") -> None:
     copilot = command_subparsers.add_parser(
         "copilot", description="Connects and interacts with copilot.", help="Connects and interacts with copilot."
     )
@@ -167,7 +173,7 @@ def module_copilot(command_subparsers: argparse.ArgumentParser):
     gui.add_argument("-d", "--directory", type=str, required=True, help="Data directory")
 
 
-def copilot_modules(parser):
+def copilot_modules(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("-u", "--user", required=True, type=str, help="User email to connect.")
     parser.add_argument("-p", "--password", required=False, type=str, help="User password to connect.")
     parser.add_argument("--cached-token", action="store_true", help="Use cached access token to connect to copilot if exists.")
@@ -186,7 +192,7 @@ def copilot_modules(parser):
     )
 
 
-def module_copilot_studio(command_subparsers: argparse.ArgumentParser):
+def module_copilot_studio(command_subparsers: "_SubParsersAction[argparse.ArgumentParser]") -> None:
     copilot = command_subparsers.add_parser(
         "copilot-studio-hunter", description="Scan, enumerate and recon Copilot Studio bots.", help="Scan, enumerate and recon Copilot Studio bots."
     )
@@ -199,6 +205,13 @@ def module_copilot_studio(command_subparsers: argparse.ArgumentParser):
     )
     copilot_studio_modules(deep_scan, "deep-scan")
 
+    tools_recon = copilot_subparsers.add_parser(
+        "tools-recon",
+        description="Starts a recon scan for tools based on a url or a list of urls in a file.",
+        help="Starts a recon scan for tools based on a url or a list of urls in a file.",
+    )
+    copilot_studio_modules(tools_recon, "tools-recon")
+
     enum = copilot_subparsers.add_parser(
         "enum",
         description="Starts enumerating for Azure tenant IDs or environments IDs.  Requires AMASS to be installed.",
@@ -207,7 +220,7 @@ def module_copilot_studio(command_subparsers: argparse.ArgumentParser):
     copilot_studio_modules(enum, "enum")
 
 
-def copilot_studio_modules(parser: argparse.ArgumentParser, module: str):
+def copilot_studio_modules(parser: argparse.ArgumentParser, module: str) -> None:
 
     if module == "deep-scan":
         parser.add_argument("-r", "--rate", type=int, default=0, help="Rate limit in seconds between ffuf requests")
@@ -222,12 +235,17 @@ def copilot_studio_modules(parser: argparse.ArgumentParser, module: str):
         group.add_argument("-d", "--domain", type=str, help="The domain to query for tenant ID and run ffuf on")
         group.add_argument("-i", "--tenant-id", type=str, help="The tenant ID to run FFUF on")
 
+    if module == "tools-recon":
+        group = parser.add_mutually_exclusive_group(required=True)
+        group.add_argument("-u", "--url", type=str, help="The URL to query for tools")
+        group.add_argument("-i", "--input-file", type=str, help="The path to an input file with a list of URLs to query for tools")
+
     if module == "enum":
         parser.add_argument("-e", "--enumerate", choices=["environment", "tenant"], help="Run the enumeration function on environment or tenant")
         parser.add_argument("-t", "--timeout", help="The timeout for the enumeration process to have (in seconds)", default=300)
 
 
-def module_powerpages(parser: argparse.ArgumentParser):
+def module_powerpages(parser: "_SubParsersAction[argparse.ArgumentParser]") -> None:
     powerpages = parser.add_parser(
         "powerpages",
         description="Test anonymous access to dataverse tables via power pages, either via the apis or odata feeds.",
@@ -240,10 +258,10 @@ def module_powerpages(parser: argparse.ArgumentParser):
     )
 
 
-def parse_arguments():
+def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", "--log-level", default=logging.INFO, type=lambda x: getattr(logging, x), help="Configure the logging level.")
-    command_subparsers = parser.add_subparsers(help="command", dest="command")
+    command_subparsers: "_SubParsersAction[argparse.ArgumentParser]" = parser.add_subparsers(help="command", dest="command")
 
     module_dump(command_subparsers)
     module_recon(command_subparsers)
