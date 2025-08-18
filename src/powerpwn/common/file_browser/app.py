@@ -188,7 +188,7 @@ class FileBrowserApp:
         except OSError:
             return None
 
-    def run(self, debug=False, host="0.0.0.0", port=5000):
+    def run(self, debug, host, port):
         """
         Run the Flask application
 
