@@ -22,8 +22,11 @@ from powerpwn.powerdump.gui.prep import (
 
 class Gui:
     def run(self, cache_path: str) -> None:
+
         # run file browser
-        subprocess.Popen(['python', 'src/powerpwn/common/file_browser/app.py', cache_path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, text=True) # nosec
+        subprocess.Popen(
+            ["python", "src/powerpwn/common/file_browser/app.py", cache_path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, text=True
+        )  # nosec
 
         # check if cache path exists
         if not os.path.exists(cache_path):

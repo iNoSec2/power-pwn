@@ -25,15 +25,15 @@ FILE_VIEW_TEMPLATE = """
             <strong>Mimetype:</strong> {{ mimetype }}
         </div>
     </div>
-    
+
     <a href="{{ url_for('browse', path=parent_path) }}" class="back-link">← Back to Directory</a>
-    
+
     {% if is_binary %}
     <div class="binary-warning">
         ⚠️ This appears to be a binary file. Displaying content may not be meaningful.
     </div>
     {% endif %}
-    
+
     <div class="file-content">
         <pre>{{ file_content }}</pre>
     </div>

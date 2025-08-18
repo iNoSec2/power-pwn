@@ -62,11 +62,11 @@ HTML_TEMPLATE = """
     <th{% if colspan > 1 %} colspan="{{ colspan }}"{% endif %}> {{ text }} </th>
     {%- endmacro %}
     <h1>File Explorer</h1>
-    
+
     <div class="current-path">
         <strong>Current Path:</strong> {{ current_path }}
     </div>
-    
+
     {% if parent_path %}
         {% if parent_path == "root" %}
         <a href="{{ url_for('browse', path='') }}" class="back-link">← Back to Root</a>
@@ -92,7 +92,7 @@ HTML_TEMPLATE = """
             <tbody>
                 {% for item in items %}
                     <tr>
-                        <td> 
+                        <td>
                             {% if item.is_dir %}
                                 <a href="{{ url_for('browse', path=item.path) }}" class="directory">
                                     📁 {{ item.name }}/
@@ -116,15 +116,15 @@ HTML_TEMPLATE = """
                                     👁️
                                 </a>
                             {% endif %}
-                         </td>
+                        </td>
                         <td>
                             {% if not item.is_dir %}
                                 <a href="{{ url_for('download', path=item.path) }}">⬇️ </a>
-                            {% endif %}                         
-                         </td>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
-                    
+
             </tbody>
         </table>
 
