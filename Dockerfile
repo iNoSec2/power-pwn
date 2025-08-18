@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/python:1-3.8
+FROM mcr.microsoft.com/devcontainers/python:1-3.11
 
 # Create a new user with a home directory
 RUN useradd -ms /bin/bash powerpwn
