@@ -14,7 +14,7 @@ def check_python_version() -> bool:
     version_info = sys.version_info
     if version_info.major != 3:
         return False
-    if version_info.minor < 6 or version_info.minor > 8:
+    if version_info.minor > 11:
         return False
     return True
 
@@ -28,7 +28,7 @@ def find_python() -> str:
 
 def main() -> None:
     if not check_python_version():
-        log("Error: Supported Python versions are between 3.6 and 3.8.")
+        log("Error: Supported Python version is 3.11.")
         log(f"Detected Python version: {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}")
         sys.exit(1)
 

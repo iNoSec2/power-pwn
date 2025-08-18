@@ -15,7 +15,6 @@ jsf~=0.7.1
 pillow>=10.3.0
 scandir~=1.10.0
 backports.shutil-get-terminal-size~=1.0.0
-browsepy~=0.5.6
 art~=6.1
 flake8~=4.0.1
 black~=24.4.0
