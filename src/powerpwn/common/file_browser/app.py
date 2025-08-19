@@ -36,9 +36,6 @@ class FileBrowserApp:
                 # Verify the path is within the root directory
                 full_path = self.__get_and_verify_path(path)
 
-                if not os.path.exists(full_path):
-                    return render_template_string(NO_DATA_TEMPLATE, parent_path=os.path.dirname(path))
-
                 if not os.path.isdir(full_path):
                     abort(400, description="Not a directory")
 
