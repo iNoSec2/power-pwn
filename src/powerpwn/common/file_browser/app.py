@@ -193,7 +193,12 @@ class FileBrowserApp:
 
         return full_path
 
+
 class FileItem:
+    """
+    Represents a file or directory in the file browser
+    """
+
     def __init__(self, name: str, path: str, is_dir: bool, type: str, modified, size=None):
         self.name = name
         self.path = path
