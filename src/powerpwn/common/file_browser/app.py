@@ -177,7 +177,7 @@ class FileBrowserApp:
     def get_app(self):
         """Get the Flask app instance for external use (e.g., with gunicorn)"""
         return self.app
-    
+
     def __get_and_verify_path(self, path):
         if os.path.isabs(path):
             full_path = path
