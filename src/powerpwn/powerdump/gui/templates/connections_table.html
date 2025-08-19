@@ -29,7 +29,7 @@
           <td>{{ connection.shareable }}</td>
           <td><a href="/api/{{ connection.connector_id }}/{{ connection.connection_id }}">Playground</a></td>
           <td><a href="/env/{{ connection.environment_id }}/credentials/{{ connection.entity_id }}">Raw</a> </td>
-          <td><a href="http://127.0.0.1:8080/browse/data/{{ connection.environment_id }}/connections/{{connection.connector_id}}/{{connection.entity_id}}" target="_blank">Dump</a> </td>
+          <td><a href="http://127.0.0.1:8080/data/{{ connection.environment_id }}/connections/{{connection.connector_id}}/{{connection.entity_id}}" target="_blank">Dump</a> </td>
         </tr>
       {% endfor %}
     </tbody>
