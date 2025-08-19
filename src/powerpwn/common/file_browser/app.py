@@ -33,13 +33,9 @@ class FileBrowserApp:
                 path = self.directory
 
             try:
-                # Construct the full path by joining with the root directory
-                if os.path.isabs(path):
-                    full_path = path
-                else:
-                    full_path = os.path.join(self.directory, path)
+                # Verify the path is within the root directory
+                full_path = self.__get_and_verify_path(path)
 
-                full_path = os.path.abspath(full_path)
                 if not os.path.exists(full_path):
                     return render_template_string(NO_DATA_TEMPLATE, parent_path=os.path.dirname(path))
 
@@ -86,19 +82,8 @@ class FileBrowserApp:
 
         @self.app.route("/view/<path:path>")
         def view(path):
-            # Security: prevent directory traversal attacks
-            if ".." in path or path.startswith("/"):
-                abort(403)
-
             try:
-                # Construct the full file path by joining with the root directory
-                if os.path.isabs(path):
-                    full_file_path = path
-                else:
-                    full_file_path = os.path.join(self.directory, path)
-
-                if not os.path.exists(full_file_path):
-                    return render_template_string(NO_DATA_TEMPLATE, parent_path=os.path.dirname(path))
+                full_file_path = self.__get_and_verify_path(path)
 
                 if os.path.isdir(full_file_path):
                     abort(400, description="Cannot view a directory")
@@ -139,19 +124,8 @@ class FileBrowserApp:
 
         @self.app.route("/download/<path:path>")
         def download(path):
-            # Security: prevent directory traversal attacks
-            if ".." in path or path.startswith("/"):
-                abort(403)
-
             try:
-                # Construct the full file path by joining with the root directory
-                if os.path.isabs(path):
-                    full_file_path = path
-                else:
-                    full_file_path = os.path.join(self.directory, path)
-
-                if not os.path.exists(full_file_path):
-                    return render_template_string(NO_DATA_TEMPLATE, parent_path=os.path.dirname(path))
+                full_file_path = self.__get_and_verify_path(path)
 
                 if os.path.isdir(full_file_path):
                     abort(400, description="Cannot download a directory")
@@ -203,7 +177,21 @@ class FileBrowserApp:
     def get_app(self):
         """Get the Flask app instance for external use (e.g., with gunicorn)"""
         return self.app
+    
+    def __get_and_verify_path(self, path):
+        if os.path.isabs(path):
+            full_path = path
+        else:
+            full_path = os.path.join(self.directory, path)
 
+        full_path = os.path.abspath(full_path)
+        if not (full_path == self.directory or full_path.startswith(self.directory + os.sep)):
+            abort(403)
+
+        if not os.path.exists(full_path):
+            return render_template_string(NO_DATA_TEMPLATE, parent_path=os.path.dirname(path))
+
+        return full_path
 
 class FileItem:
     def __init__(self, name: str, path: str, is_dir: bool, type: str, modified, size=None):
