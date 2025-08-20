@@ -68,13 +68,13 @@ An review of the tool's basic modules is available here:
 
 **Notes**:
 
-1. To handle the GUI properly, please use Python 3.8 for the above virtual environment, if it is not already the default.
+1. To handle the GUI properly, please use Python 3.11 for the above virtual environment, if it is not already the default.
 2. If the project directory isn't set up correctly you can use this command (or one similar to it) to set it up manually:
 
    - `export PYTHONPATH=/[your_powerpwn_directory]/src:$PYTHONPATH` (Linux)
    - `$env:PYTHONPATH = "C:\[your_powerpwn_directory]\src;" + $env:PYTHONPATH` (Windows PowerShell)
 
-3. To handle the PowerDump module's GUI properly, please use Python 3.8 for the above `pip` version if it is not already the default. Alternatively, you can install the above within a Python 3.8 virtual environment.
+3. To handle the PowerDump module's GUI properly, please use Python 3.11 for the above `pip` version if it is not already the default. Alternatively, you can install the above within a Python 3.11 virtual environment.
 4. When pushing PR, you can run `black -C -l 150 {file to path}` to fix any formatting issues related to _black_.
 
 # Usage
